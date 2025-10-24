@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import type { Note } from '@/types/note';
+import type { Note, NoteTag } from '@/types/note';
 import type { NoteFormValues, FetchNoteResponse } from '@/types/note';
 
 const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
@@ -29,7 +29,7 @@ export const fetchNotes = async (
 };
 
 export const createNote = async (newNote: NoteFormValues): Promise<Note> => {
-  const response: AxiosResponse<Note> = await axios.post('notes', newNote);
+  const response: AxiosResponse<Note> = await axios.post('/notes', newNote);
   return response.data;
 };
 

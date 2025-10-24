@@ -8,8 +8,6 @@ import { fetchNotes } from '@/lib/api';
 import type { FetchNoteResponse } from '@/types/note';
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
 import css from './Notes.client.module.css';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Link from 'next/link';
@@ -23,10 +21,6 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
     setQuery(newQuery);
     setCurrentPage(1);
   }, 800);
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   // ✅ React Query підхоплює гідратований кеш
   const tagKey = tagName ?? 'all';
@@ -72,11 +66,6 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
         </>
       ) : (
         <p>No notes found</p>
-      )}
-      {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <NoteForm onClose={closeModal} />
-        </Modal>
       )}
     </div>
   );
