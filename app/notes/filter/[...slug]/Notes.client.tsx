@@ -29,7 +29,7 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
 
   // ✅ React Query підхоплює гідратований кеш
   const tagKey = tagName ?? 'all';
-  const { data, isLoading, isError } = useQuery<FetchNoteResponse>({
+  const { data, isLoading, isError, isFetching } = useQuery<FetchNoteResponse>({
     queryKey: ['notes', query, currentPage, tagKey],
     queryFn: () => fetchNotes(query, currentPage, 12, tagName),
     refetchOnMount: false,
@@ -53,13 +53,25 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
         <button className={css.button} onClick={openModal}>
           Create note +
         </button>
-        {isLoading && <p className={css.loading}>Loading notes...</p>}
-        {isError && <p className={css.error}>Failed to load notes.</p>}
       </div>
-      {data?.notes?.length ? (
+      {/* {isError ? (
+        <p className={css.error}>Failed to load notes.</p>
+      ) : isLoading ? (
+        <p className={css.loading}>Loading notes...</p>
+      ) : data?.notes?.length ? (
         <NoteList notes={data.notes} />
       ) : (
-        !isLoading && <p>No notes found</p>
+        <p>No notes found</p>
+      )} */}
+      {isError ? (
+        <p className={css.error}>Failed to load notes.</p>
+      ) : data?.notes?.length ? (
+        <>
+          <NoteList notes={data.notes} />
+          {isFetching && <p className={css.loading}>Loading notes...</p>}
+        </>
+      ) : (
+        <p>No notes found</p>
       )}
       {isModalOpen && (
         <Modal onClose={closeModal}>
