@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createNote } from '@/lib/api';
 import type { NoteFormValues } from '../../types/note';
 import { useNoteDraftStore } from '@/lib/store/noteStore';
+import TagsMenu from '../TagsMenu/TagsMenu';
 import css from './NoteForm.module.css';
 
 const tagOptions: string[] = [
@@ -86,20 +87,14 @@ const NoteForm = () => {
 
       <div className={css.formGroup}>
         <label htmlFor="tag">Tag</label>
-        <select
+
+        <TagsMenu
           id="tag"
-          name="tag"
-          defaultValue={draft?.tag}
-          onChange={handleChange}
-          className={css.select}
-          required
-        >
-          {tagOptions.map((tag) => (
-            <option key={tag} value={tag}>
-              {tag}
-            </option>
-          ))}
-        </select>
+          options={tagOptions}
+          value={formValues.tag}
+          onChange={(tag) => setFormValues((prev) => ({ ...prev, tag }))}
+          placeholder="Select tag"
+        />
       </div>
 
       <div className={css.actions}>
