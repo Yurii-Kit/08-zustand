@@ -17,12 +17,12 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: 'NoteHub App',
-  description: 'Застосунок для нотаток і організації завдань',
+  description: 'Application for notes and task organization',
 
   openGraph: {
     title: 'NoteHub App',
-    description: 'Застосунок для нотаток і організації завдань',
-    url: 'https://08-zustand-eight-sigma.vercel.app/', // Замінити на реальну URL!!!!!!!!!!!!!!!!!!!!!
+    description: 'Application for notes and task organization',
+    url: 'https://08-zustand-eight-sigma.vercel.app/',
     images: [
       {
         url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',

@@ -1,11 +1,11 @@
 'use client';
-
+import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { createNote } from '@/lib/api';
 import type { NoteFormValues } from '../../types/note';
+import { useNoteDraftStore } from '@/lib/store/noteStore';
 import css from './NoteForm.module.css';
-import { log } from 'console';
 
 const tagOptions: string[] = [
   'Todo',
@@ -18,9 +18,34 @@ const tagOptions: string[] = [
 const NoteForm = () => {
   const router = useRouter();
 
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
+
+  // локальний стан форми — не оновлює Zustand на кожному введенні
+  const [formValues, setFormValues] = useState<NoteFormValues>(draft);
+
+  // коли користувач друкує — змінюємо тільки локальний стан
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 🕐 debounce — оновлюємо Zustand тільки якщо користувач не друкує 0.5 с
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDraft(formValues);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [formValues, setDraft]);
+
   const { mutate } = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
+      clearDraft();
       router.push('/notes/filter/all');
     },
   });
@@ -38,8 +63,10 @@ const NoteForm = () => {
         <label htmlFor="title">Title</label>
         <input
           id="title"
-          name="title"
           type="text"
+          name="title"
+          defaultValue={draft?.title}
+          onChange={handleChange}
           className={css.input}
           required
         />
@@ -50,6 +77,8 @@ const NoteForm = () => {
         <textarea
           id="content"
           name="content"
+          defaultValue={draft?.content}
+          onChange={handleChange}
           className={css.textarea}
           required
         ></textarea>
@@ -57,7 +86,14 @@ const NoteForm = () => {
 
       <div className={css.formGroup}>
         <label htmlFor="tag">Tag</label>
-        <select id="tag" name="tag" className={css.select} required>
+        <select
+          id="tag"
+          name="tag"
+          defaultValue={draft?.tag}
+          onChange={handleChange}
+          className={css.select}
+          required
+        >
           {tagOptions.map((tag) => (
             <option key={tag} value={tag}>
               {tag}
