@@ -12,6 +12,7 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import css from './Notes.client.module.css';
 import SearchBox from '@/components/SearchBox/SearchBox';
+import Link from 'next/link';
 
 const NotesClient = ({ tagName }: { tagName?: string }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -35,7 +36,6 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
-
     placeholderData: keepPreviousData, //  залишає старі дані поки нові завантажуються
   });
 
@@ -50,9 +50,9 @@ const NotesClient = ({ tagName }: { tagName?: string }) => {
             setCurrentPage={setCurrentPage}
           />
         )}
-        <button className={css.button} onClick={openModal}>
+        <Link className={css.button} href="/notes/action/create">
           Create note +
-        </button>
+        </Link>
       </div>
       {/* {isError ? (
         <p className={css.error}>Failed to load notes.</p>

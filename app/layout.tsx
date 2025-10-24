@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'NoteHub App',
     description: 'Застосунок для нотаток і організації завдань',
-    url: 'http://localhost:3000', // Замінити на реальну URL!!!!!!!!!!!!!!!!!!!!!
+    url: 'https://08-zustand-eight-sigma.vercel.app/', // Замінити на реальну URL!!!!!!!!!!!!!!!!!!!!!
     images: [
       {
         url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',

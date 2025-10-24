@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? note.content.slice(0, 30)
     : 'Деталі нотатки NoteHub.';
 
-  const url = `https://yourappdomain.com/notes/${id}`;
+  const url = `https://08-zustand-eight-sigma.vercel.app/notes/${id}`;
 
   return {
     title,

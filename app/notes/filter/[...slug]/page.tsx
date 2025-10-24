@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? `Перегляд нотаток з фільтром за тегом "${tagName}".`
       : 'Перегляд усіх нотаток без фільтру.';
 
-  const url = `https://http://localhost:3000//notes/filter/${tagName}`;
+  const url = `https://08-zustand-eight-sigma.vercel.app/notes/filter/${tagName}`;
 
   return {
     title,
